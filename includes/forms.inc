@@ -94,16 +94,17 @@ function islandora_ip_embargo_manage_embargo_list_form(array $form, array &$form
       continue;
     }
 
-    $rels = $fedora_object->relationships->get();
+    $rels = $fedora_object->relationships->get('info:fedora/fedora-system:def/relations-external#', 'isMemberOfCollection');
     $options[$data->pid]['modify'] = l($fedora_object->label, 'islandora/object/' . $data->pid . '/ip_embargo');
     $options[$data->pid]['pid'] = l($data->pid, 'islandora/object/' . $data->pid . '/manage');
-    $options[$data->pid]['collection'] = l($rels[1]['object']['value'], 'islandora/object/' . $rels[0]['object']['value']);
+	$memberOf = islandora_object_load($rels[0]['object']['value']);
+    $options[$data->pid]['collection'] = l($memberOf->label, 'islandora/object/' . $rels[0]['object']['value']);
   }
 
   $header = array(
     'modify' => t('Modify'),
     'pid' => t('Manage'),
-    'collection' => t('Is Member Of'),
+	'collection' => array('data' => t('Is Member Of'), 'field' => 'collection', 'sort' => 'asc'),
   );
 
   $form['Lists'] = array(

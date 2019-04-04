@@ -376,7 +376,7 @@ function islandora_ip_embargo_set_event_triggered($event_threshold) {
  * @return array
  *   The list of embargoed objects.
  */
-function islandora_ip_embargo_get_all_embargo_objects($limit = 10) {
+function islandora_ip_embargo_get_all_embargo_objects($limit = 100) {
   $query = db_select('islandora_ip_embargo_embargoes');
   $query = $query->extend('TableSort');
   $query = $query->extend('PagerDefault');
